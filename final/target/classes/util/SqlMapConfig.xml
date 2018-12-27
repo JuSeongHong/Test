@@ -29,6 +29,7 @@
 		<typeAlias type="com.naver.zootopia.model.peteReservation" alias="peReser"/>
 		<typeAlias type="com.naver.zootopia.model.petepilogue" alias="petepil"/>
 		<typeAlias type="com.naver.zootopia.model.peteEpil" alias="peteEpil"/>
+		<typeAlias type="com.naver.zootopia.model.peteFavorite" alias="peteFavorite"/>
 		<!-- 조경보(지도) -->
 		<typeAlias type="com.naver.zootopia.model.EvaluationBean" alias="eval"/>
 		<typeAlias type="com.naver.zootopia.model.MarkerBean" alias="marker"/>	

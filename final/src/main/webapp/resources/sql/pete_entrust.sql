@@ -19,6 +19,18 @@ create table pete_entrust(
 	pete_time_out2 varchar2(50),    --üũ�ƿ� �ð�	
 	foreign key (pete_id) references join_member(join_id)
 )
+select * from pete_entrust
+
+create table pete_favorite(
+	pete_id varchar2(50) not null,
+	join_id varchar2(50) not null,
+	favorite_no number,
+	pete_board_num number
+)
+select* from pete_favorite
+create sequence favorite_no_seq
+increment by 1 start with 1
+drop table pete_favorite
 
 insert into pete_entrust values(
 	'popf', pete_num_seq.nextval, '제목', '내용', 'ㅇㅇ', 'ㅇ', 'ㅇ','ㅇ' ,'ㅇ','ㅇ','ㅇ','ㅇ','ㅇ','ㅇ','ㅇ','ㅇ'

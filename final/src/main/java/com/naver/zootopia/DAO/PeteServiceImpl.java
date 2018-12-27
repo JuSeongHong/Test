@@ -148,4 +148,22 @@ public class PeteServiceImpl implements PeteService{
 		return peteDAO.selectEpilSum(pete_id);
 	}
 
+	//즐겨찾기 추가
+	@Override
+	public void insertFavorite(Map<String, Object> m) {
+		peteDAO.insertFavorite(m);
+	}
+
+	//즐겨찾기 삭제
+	@Override
+	public void deleteFavorite(Map<String, Object> m) {
+		peteDAO.deleteFavorite(m);
+	}
+
+	//즐겨찾기 체크
+	@Override
+	public int selectFavorite(Map<String, Object> m) {
+		return peteDAO.selectFavorite(m);
+	}
+
 }

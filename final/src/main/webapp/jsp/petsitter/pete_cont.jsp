@@ -219,6 +219,28 @@ $(document).ready(function(){
 			}
 		}
 	});
+	 
+	 //즐겨찾기
+	 var num = ${petebean.pete_board_num };
+	 var pete_id = '${petebean.pete_id }';
+	 $(".favorite").click(function() {
+		var favorite = $('#favorite').val();
+		$.ajax({
+			 data : {"pete_board_num" : num, "pete_id" : pete_id, "favorite" : favorite},
+			 type : "post",
+			 url : "./pete_favorite.nhn",			 
+			 success : function(data) {
+				 if(data == 1) {
+					 alert('즐겨찾기 성공');
+					 location.reload();
+				 } else if (data == 0) {
+					 alert('즐겨찾기 해제');
+					 location.reload();
+				 }
+			 }
+		}) 
+	 })
+	 
 });
 
 //예약하기 유효성검사
@@ -312,6 +334,20 @@ function check2() {
 		<a href="./pete_map.nhn?pete_location=${petebean.pete_location }">
 			${petebean.pete_location }
 		</a>
+		&nbsp;&nbsp;&nbsp;
+		
+		<!--즐겨찾기-->
+		<c:if test="${!empty sessionScope.id }">
+			<c:if test="${favorite == 'favOff' }"> 
+				<img src="./resources/image/icon/star_off.png" class="favorite" width="30px" height="30px">
+				<input type="hidden" id="favorite" value="favOff">
+			</c:if>
+			<c:if test="${favorite == 'favOn' }">
+				<img src="./resources/image/icon/star_on.png" class="favorite" width="30px" height="30px">
+				<input type="hidden" id="favorite" value="favOn">
+			</c:if>
+		</c:if>
+		
 		</div>
 	</li>
 	</ul>

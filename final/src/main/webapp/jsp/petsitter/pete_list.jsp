@@ -27,11 +27,17 @@
 	<c:forEach var="p" items="${petelist }" varStatus="i">
 		<tr>
 			<td rowspan="5" style="width:500px;">
-			<div class="thumbnail">		
-			<a href="./pete_cont.nhn?pete_board_num=${p.pete_board_num}&page=${page}&state=cont" class="pete_subject">
-				<img src="./resources/upload${p.pete_house_photo }" class="img-fluid">
-			</a>
-			</div>
+			<c:if test="${listMap[i.index].favorite == 'favOff' }">
+				<img src="./resources/image/icon/star_off.png" width="30px" height="30px" style="float:left">
+			</c:if>
+			<c:if test="${listMap[i.index].favorite == 'favOn' }">
+				<img src="./resources/image/icon/star_on.png" width="30px" height="30px" style="float:left">
+			</c:if>	
+				<div class="thumbnail">
+				<a href="./pete_cont.nhn?pete_board_num=${p.pete_board_num}&page=${page}&state=cont" class="pete_subject">
+					<img src="./resources/upload${p.pete_house_photo }" class="img-fluid">
+				</a>
+				</div>
 			</td>
 		</tr>
 		

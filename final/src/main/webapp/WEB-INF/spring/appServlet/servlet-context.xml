@@ -28,5 +28,4 @@
 	
 		<!--  aop관련 annotation을 인식하고 처리해 줍니다. -->
 	<aop:aspectj-autoproxy/>
-	
 </beans:beans>

@@ -201,4 +201,25 @@
     <select id="selectEpilSum" parameterType="String" resultType="peteEpil">
     	select pete_epil_star from pete_epil where pete_epil_id = #{pete_id}
     </select>
+    
+   	<!-- 즐겨찾기 추가 -->
+    <insert id="insertFavorite" parameterType="map">
+    	insert into pete_favorite(pete_id, join_id, favorite_no, pete_board_num)
+    	values (#{pete_id}, #{join_id}, favorite_no_seq.nextval, #{pete_board_num})
+    </insert>
+    
+    <!-- 즐겨찾기 제거 -->
+    <delete id="deleteFavorite" parameterType="map">
+    	delete from pete_favorite
+    	where join_id = #{join_id}
+    	and pete_board_num = #{pete_board_num}
+    </delete>
+    
+    <!-- 즐겨찾기 확인 -->
+    <select id="selectFavorite" parameterType="map" resultType="int">
+    	select count(*) from pete_favorite
+    	where join_id = #{join_id}
+    	and pete_board_num = #{pete_board_num}
+    </select>
+    
 </mapper>

@@ -225,6 +225,29 @@ public class PetsitterAction {
 		m.put("page", page);
 		List<peteBean> petelist = psService.getPeteList(m);
 		
+		
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();		
+		ModelAndView view = new ModelAndView("petsitter/pete_list");
+		//글번호 가져와서 즐겨찾기 확인
+		for(peteBean pete : petelist) {
+			int pete_board_num = pete.getPete_board_num();
+			Map<String, Object> map = new HashMap<String, Object>();
+				map.put("join_id", id);
+				map.put("pete_board_num", pete_board_num);
+				
+			Map<String, Object> favMap = new HashMap<String, Object>();
+			
+			int favorite_check = psService.selectFavorite(map);
+			
+			System.out.println("favorite_check : " + favorite_check);
+			
+			if(favorite_check == 1) {				
+				favMap.put("favorite","favOn");
+			} else if (favorite_check == 0){
+				favMap.put("favorite", "favOff");
+			}
+			listMap.add(favMap);
+		}
 		//같은 페이지에 뽑은 list에서 id값을 가져옴.
 		//가져온 id를  이용해 다른 테이블의 평점을 가져와 평균점수, 갯수로 만들어 jsp로 보냄
 		List<Map<String, Integer>> starList = new ArrayList<Map<String, Integer>>();
@@ -240,8 +263,7 @@ public class PetsitterAction {
 				epilMap.put("avg", 0);
 				epilMap.put("cnt", 0);
 			} else {
-				System.out.println("1");
-				for (Integer star : epilList) { System.out.println("2");
+				for (Integer star : epilList) {
 					sum += star;
 				}
 				avg = sum / cnt;
@@ -250,8 +272,6 @@ public class PetsitterAction {
 			}
 			starList.add(epilMap);
 		}
-		ModelAndView view = new ModelAndView("petsitter/pete_list"); 
-		
 		view.addObject("page", page);//현재 페이지 수
 		view.addObject("maxpage", maxpage);//최대 페이지 수
 		view.addObject("startpage", startpage);
@@ -259,6 +279,7 @@ public class PetsitterAction {
 		view.addObject("listcount", listcount);
 		view.addObject("petelist", petelist);
 		view.addObject("starList", starList);
+		view.addObject("listMap", listMap);
 		
 		return view;		
 	}
@@ -375,10 +396,20 @@ public class PetsitterAction {
 		view.addObject("petebean", pete);
 		view.addObject("page", page);
 		
-		String id = (String) session.getAttribute("id");
-		System.out.println("id :" + id );
-		session.setAttribute("id", id);
+		String join_id = (String) session.getAttribute("id");
+		System.out.println("id :" + join_id );
 		
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("join_id", join_id);
+		m.put("pete_board_num", num);
+		
+		int favorite_check = psService.selectFavorite(m);
+		System.out.println("favorite_check : " + favorite_check);
+		if(favorite_check == 1) {
+			view.addObject("favorite","favOn");
+		} else if (favorite_check == 0){
+			view.addObject("favorite", "favOff");
+		}
 		
 		return view;
 	}
@@ -789,5 +820,37 @@ public class PetsitterAction {
 		model.addAttribute("pete_location", pete_location);
 		System.out.println("pete_location : " + pete_location );
 		return "petsitter/pete_map";
+	}
+	
+	//즐겨찾기
+	@RequestMapping(value="pete_favorite.nhn")
+	@ResponseBody
+	public String pete_favorite(
+			@RequestParam("pete_id") String pete_id,
+			@RequestParam("pete_board_num") int pete_board_num,
+			@RequestParam("favorite") String favorite,
+			HttpSession session
+			) throws Exception {
+		String join_id = (String) session.getAttribute("id");
+		System.out.println("join_id : " + join_id);
+		System.out.println("pete_id : " + pete_id);
+		System.out.println("pete_board_num : " + pete_board_num);
+		System.out.println("favorite : " + favorite);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("join_id", join_id);
+		m.put("pete_id", pete_id);
+		m.put("pete_board_num", pete_board_num);
+		m.put("favorite", favorite);
+		int favorite_check = psService.selectFavorite(m);
+		System.out.println("favorite_check : " + favorite_check);
+		if(favorite.equals("favOff")) {
+			psService.insertFavorite(m);
+			return "1";
+		} else if (favorite.equals("favOn")) {
+			psService.deleteFavorite(m);
+			return "0";
+		}
+		
+		return null;
 	}
 }

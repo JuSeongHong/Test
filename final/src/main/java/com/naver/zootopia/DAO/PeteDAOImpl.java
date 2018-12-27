@@ -122,4 +122,17 @@ public class PeteDAOImpl {
 	public List<peteEpil> selectEpilSum(String pete_id) {
 		return sqlSession.selectList("pete.selectEpilSum", pete_id);
 	}
+	
+	//즐겨찾기 추가
+	public void insertFavorite(Map<String, Object> m) {
+		sqlSession.insert("pete.insertFavorite", m);	
+	}
+	//즐겨찾기 제거
+	public void deleteFavorite(Map<String, Object> m) {
+		sqlSession.delete("pete.deleteFavorite", m);
+	}
+	//즐겨찾기 체크
+	public int selectFavorite(Map<String, Object> m) {
+		return sqlSession.selectOne("pete.selectFavorite", m);
+	}
 }

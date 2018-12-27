@@ -73,4 +73,10 @@ public interface PeteService {
 
 	public List<peteEpil> selectEpilSum(String pete_id);
 
+	public void insertFavorite(Map<String, Object> m);
+
+	public void deleteFavorite(Map<String, Object> m);
+
+	public int selectFavorite(Map<String, Object> m);
+
  }
