@@ -66,7 +66,7 @@
 		pete_house_photo, pete_location,pete_space,pete_animals_kind,
 		pete_walk,pete_family,pete_house_original, pete_pass,
 		pete_time_in,pete_time_out,pete_time_out2,pete_time_in2 from
-                  (select * from pete_entrust 
+                  (select * from pete_entrust
       <where>
          <!-- 검색 조건이 없는 경우 -->
          <if test="find_field==''"></if>
@@ -86,6 +86,7 @@
             pete_content like #{find_name}
          </if>         
       </where>
+      order by pete_board_num desc
        )
    <![CDATA[
        )
